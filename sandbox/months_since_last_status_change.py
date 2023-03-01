@@ -1,5 +1,5 @@
 import pandas as pd
-import operations as ops
+import pandas_utils as utils
 from IPython.display import display
 from pandas.tseries.offsets import DateOffset
 
@@ -19,10 +19,10 @@ def get_months_status_change(path_in, path_out, file_in, file_out):
         by=["sub_id", "sub_year_month"], ascending=[True, True], inplace=True
     )
 
-    ops.positional_function(
+    utils.positional_function(
         "lag", months_status_change_df, "status", "previous_status", "sub_id"
     )
-    ops.positional_function(
+    utils.positional_function(
         "lag", months_status_change_df, "sub_date", "previous_sub_date", "sub_id"
     )
 
@@ -41,7 +41,7 @@ def get_months_status_change(path_in, path_out, file_in, file_out):
 
     only_status_change_df = months_status_change_df.query("idc_status_change == 1")
 
-    first_status_change_df = ops.groupby(
+    first_status_change_df = utils.groupby(
         only_status_change_df, ["sub_id"], "sub_date", "min", "first_status_change"
     )
     first_status_change_dict = first_status_change_df.to_dict("dict")
@@ -53,7 +53,7 @@ def get_months_status_change(path_in, path_out, file_in, file_out):
                     months_status_change_df.at[index, "first_status_change"] = True
 
     # To refactor, because this specific value can't be filled
-    ops.positional_function(
+    utils.positional_function(
         "lag",
         months_status_change_df,
         "idc_status_change",
@@ -85,8 +85,13 @@ def get_months_status_change(path_in, path_out, file_in, file_out):
                 if row["sub_id"] == i and row["sub_date"] < values[i]:
                     months_status_change_df.at[index, "last_change"] = row["sub_date"]
 
-    ops.date_diff_months(
-        months_status_change_df, "last_change", "sub_date", 0, "qty_months_since_last_change", True
+    utils.date_diff_months(
+        months_status_change_df,
+        "last_change",
+        "sub_date",
+        0,
+        "qty_months_since_last_change",
+        True,
     )
 
     months_status_change_df = months_status_change_df.filter(
