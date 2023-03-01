@@ -1,3 +1,7 @@
 draft.py
-lodgify_case/sandbox/files/*
-lodgify_case/staging/files/*
+sandbox/files/*
+staging/files/*
+__pycache__/*
+raw/__pycache__/*
+staging/__pycache__/*
+sandbox/__pycache__/*
