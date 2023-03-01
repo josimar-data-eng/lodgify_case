@@ -4,3 +4,7 @@ raw/__pycache__/*
 staging/__pycache__/*
 sandbox/__pycache__/*
 lodgify-venv
+staging/files/booking.csv
+staging/files/subscription.csv
+staging/files/last_booking_per_id_month.csv
+staging/files/first_subscription_per_id_month.csv
