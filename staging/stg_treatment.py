@@ -1,5 +1,5 @@
 import pandas as pd
-import operations as ops
+import pandas_utils as utils
 from IPython.display import display
 
 
@@ -28,7 +28,7 @@ def treat_stg_booking(path_in_out, file_in, first_sub_file, last_book_file):
     stg_booking_df = stg_booking_df.query("booking_status not in ('Canceled','')")
 
     # Getting the first date per id and defining it as first_subscription_date
-    first_subscription_df = ops.groupby(
+    first_subscription_df = utils.groupby(
         stg_booking_df,
         ["subscriber_id"],
         "booking_date",
@@ -46,7 +46,7 @@ def treat_stg_booking(path_in_out, file_in, first_sub_file, last_book_file):
 
     # The last_booking table will be used to compare with fist_subscription table to get the months passed since 1o subscription according the bookin table point of view.
     # Do I need to filter the satus? Is the subscription effective only if the status is not canceled?
-    last_booking_df = ops.groupby(
+    last_booking_df = utils.groupby(
         stg_booking_df,
         ["subscriber_id", "booking_year_month"],
         "booking_date",
