@@ -1,5 +1,5 @@
 import pandas as pd
-import operations as ops
+import pandas_utils as utils
 from IPython.display import display
 
 
@@ -29,7 +29,7 @@ def get_months_confirmed_books(path_in, path_out, file_in, file_out):
         else:
             stg_booking_df.at[index, "idc_book_confirmed"] = 0
 
-    months_confirmed_books = ops.groupby(
+    months_confirmed_books = utils.groupby(
         stg_booking_df,
         ["subscriber_id", "booking_year_month"],
         "idc_book_confirmed",

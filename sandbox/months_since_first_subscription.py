@@ -1,5 +1,5 @@
 import pandas as pd
-import operations as ops
+import pandas_utils as utils
 from IPython.display import display
 
 
@@ -10,9 +10,7 @@ def get_months_passed_since_first_sub(
     # - Reading stg files -# To refactor
     # ---------------------#
 
-    stg_subscription_df = pd.read_csv(
-        path_in + file_in, parse_dates=["sub_date"]
-    )
+    stg_subscription_df = pd.read_csv(path_in + file_in, parse_dates=["sub_date"])
     last_booking_df = pd.read_csv(
         path_in + last_book_file_in, parse_dates=["last_booking_date"]
     )
@@ -29,7 +27,7 @@ def get_months_passed_since_first_sub(
         first_subscription_df, on="subscriber_id", how="left"
     )
 
-    ops.date_diff_months(
+    utils.date_diff_months(
         months_since_first_sub_df,
         "first_subscription_date",
         "last_booking_date",
@@ -58,7 +56,7 @@ def get_months_passed_since_first_sub(
         first_subscription_df, on="subscriber_id", how="left"
     )
 
-    ops.date_diff_months(
+    utils.date_diff_months(
         months_since_first_sub_df,
         "first_subscription_date",
         "sub_date",

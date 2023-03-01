@@ -1,12 +1,11 @@
 import pandas as pd
 import datetime as dt
-import operations as ops
+import pandas_utils as utils
 from IPython.display import display
 from pandas.tseries.offsets import DateOffset
 
 
 def treat_booking_csv(path_in, file_in, path_out, file_out):
-    
     # Reading csv and getting only the coluns needed and trustable. We can set nan(nulls) to empty using na_filter parameter.
     columns = ["subscriber_id", "booking_status", "booking_date"]
     raw_booking_df = pd.read_csv(path_in + file_in)[columns]
@@ -18,7 +17,7 @@ def treat_booking_csv(path_in, file_in, path_out, file_out):
     raw_booking_df = raw_booking_df.drop_duplicates()
 
     # Handling missing data
-    ops.fill_na(raw_booking_df)
+    utils.fill_na(raw_booking_df)
 
     # Inserting necessary columns to define first and last bookings according to each month
     for idx, row in raw_booking_df.iterrows():
@@ -30,7 +29,7 @@ def treat_booking_csv(path_in, file_in, path_out, file_out):
         raw_booking_df.at[idx, "booking_year_month"] = year_month
 
     # Creating primary key
-    raw_booking_df = ops.create_primary_key(raw_booking_df)
+    raw_booking_df = utils.create_primary_key(raw_booking_df)
 
     # Creating datetime columns to know the loading time
     raw_booking_df["datetime_load"] = dt.datetime.now()
@@ -51,7 +50,7 @@ def treat_subscription_csv(path_in, file_in, path_out, file_out):
     raw_subscription_df.drop_duplicates()
 
     # Handling missing data
-    ops.fill_na(raw_subscription_df)
+    utils.fill_na(raw_subscription_df)
 
     # filter to make tests
     # raw_subscription_df = raw_subscription_df.loc[raw_subscription_df['sub_id'].isin([156,256])]
@@ -69,7 +68,7 @@ def treat_subscription_csv(path_in, file_in, path_out, file_out):
     raw_subscription_df["formated_dates"] = raw_subscription_df.apply(
         lambda x: (x["dates"] + "-01"), axis=1
     )
-    ops.parse_to_datetime(
+    utils.parse_to_datetime(
         raw_subscription_df,
         raw_subscription_df["formated_dates"].dtype,
         "formated_dates",
@@ -81,10 +80,10 @@ def treat_subscription_csv(path_in, file_in, path_out, file_out):
     )
 
     # Lead and Lag Functions to create the months's difference between the records to check the fill gap month needed
-    ops.positional_function(
+    utils.positional_function(
         "lag", raw_subscription_df, "formated_dates", "previous_date", "sub_id"
     )
-    ops.positional_function(
+    utils.positional_function(
         "lead", raw_subscription_df, "formated_dates", "next_date", "sub_id"
     )
 
@@ -127,7 +126,7 @@ def treat_subscription_csv(path_in, file_in, path_out, file_out):
 
     # Step 1
     # diff dates to get month difference to be able to fill the gap months correctly
-    ops.date_diff_months(
+    utils.date_diff_months(
         raw_subscription_df, "formated_dates", "next_date", 0, "diff_months", True
     )
 
@@ -164,7 +163,7 @@ def treat_subscription_csv(path_in, file_in, path_out, file_out):
     )
 
     # Creating primary key and datetime load column
-    raw_subscription_df = ops.create_primary_key(raw_subscription_df)
+    raw_subscription_df = utils.create_primary_key(raw_subscription_df)
     raw_subscription_df["datetime_load"] = dt.datetime.now()
 
     # Filtering only necessary columns
