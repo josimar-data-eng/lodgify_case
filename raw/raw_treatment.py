@@ -6,6 +6,7 @@ from pandas.tseries.offsets import DateOffset
 
 
 
+
 def treat_booking_csv(path_in,file_in,path_out,file_out):
 
     # Reading csv and getting only the coluns needed and trustable. We can set nan(nulls) to empty using na_filter parameter.
@@ -38,6 +39,7 @@ def treat_booking_csv(path_in,file_in,path_out,file_out):
     
     raw_booking_df.to_csv(path_out+file_out)
 
+    print(f"File {file_out} loaded at {path_out} directory with {len(raw_booking_df.index)} rows.")
 
 def treat_subscription_csv(path_in,file_in,path_out,file_out):
 
@@ -147,6 +149,8 @@ def treat_subscription_csv(path_in,file_in,path_out,file_out):
     # Filtering only necessary columns
     raw_subscription_df = raw_subscription_df[['id','sub_id', 'status', 'sub_year_month','sub_date','datetime_load']]
     raw_subscription_df.to_csv(path_out+file_out)
+    
+    print(f"File {file_out} loaded at {path_out} directory with {len(raw_subscription_df.index)} rows.\n")    
 
 
 

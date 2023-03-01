@@ -43,6 +43,7 @@ def generate_months_passed_since_first_sub(path_in,path_out,file_in,last_book_fi
                                 )
     new_file_out = (file_out.replace((file_out[len(file_out) - 4:]),'')+"_approach1"+file_out[len(file_out) - 4:])
     months_since_first_sub_df.to_csv(path_out+new_file_out)
+    print(f"File {new_file_out} loaded at {path_out} directory with {len(months_since_first_sub_df.index)} rows.")            
 
     #----- According to the subscription table -----#
     stg_subscription_df.rename(
@@ -74,5 +75,4 @@ def generate_months_passed_since_first_sub(path_in,path_out,file_in,last_book_fi
                                                         ]
     new_file_out = (file_out.replace((file_out[len(file_out) - 4:]),'')+"_approach2"+file_out[len(file_out) - 4:])
     months_since_first_sub_df.to_csv(path_out+new_file_out)
-
-    
+    print(f"File {new_file_out} loaded at {path_out} directory with {len(months_since_first_sub_df.index)} rows.")            

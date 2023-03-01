@@ -1,7 +1,10 @@
+import os
+import art
 import configparser
 from raw import raw_treatment
 from staging import stg_treatment
 from sandbox import   months_active_canceled\
+                    , months_confirmed_books\
                     , months_since_first_subscription\
                     , months_since_last_status_change
 
@@ -9,11 +12,8 @@ from sandbox import   months_active_canceled\
 config = configparser.ConfigParser()
 config.read('files/config/config.ini')
 
-# ---------------#
-# ---- RAW ----- #
-# ---------------#
 
-
+print("\n===================\nRAW LAYER TREATMENT\n===================")
 
 # -- BOOKING --#
 raw_treatment.treat_booking_csv(  config['raw']['path_in']
@@ -30,9 +30,7 @@ raw_treatment.treat_subscription_csv( config['raw']['path_in']
                                     )
 
 
-# -------------------#
-# ---- STAGING ----- #
-# -------------------#
+print("\n=======================\nSTAGING LAYER TREATMENT\n=======================")
 
 # -- BOOKING --#
 stg_treatment.treat_stg_booking(  config['staging']['path_in_out']
@@ -42,9 +40,8 @@ stg_treatment.treat_stg_booking(  config['staging']['path_in_out']
                                 )
 
 
-# -------------------#
-# ---- SANDBOX ----- #
-# -------------------#
+
+print("\n=======================\nSANDBOX LAYER TREATMENT\n=======================")
 
 months_since_first_subscription\
     .generate_months_passed_since_first_sub(
@@ -71,3 +68,11 @@ months_since_last_status_change\
                                 , config['sandbox']['sub_file']
                                 , config['sandbox']['months_status_change_file']
                             )
+
+months_confirmed_books\
+    .generate_months_confirmed_books(
+                                  config['sandbox']['path_in']
+                                , config['sandbox']['path_out']
+                                , config['sandbox']['book_file']
+                                , config['sandbox']['booking_confirmed_file']
+                              )
