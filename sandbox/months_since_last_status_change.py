@@ -62,32 +62,36 @@ def get_months_status_change(path_in, path_out, file_in, file_out):
     )
 
     for index, row in months_status_change_df.iterrows():
+
+        #If it's the first change
         if row["first_status_change"] == True:
-            last_change = row["sub_date"]
-            months_status_change_df.at[index, "last_change"] = last_change
+            last_status_change_date = row["sub_date"]
+            months_status_change_df.at[index, "last_status_change_date"] = last_status_change_date
 
         else:  # If had change in the previous row
             if row["previous_idc_status_change"] == 1:
-                last_change = row["previous_sub_date"]
-                months_status_change_df.at[index, "last_change"] = last_change
+                last_status_change_date = row["previous_sub_date"]
+                months_status_change_df.at[index, "last_status_change_date"] = last_status_change_date
 
+    # If it's not the first-change and there wasn't change in previous row
     for index, row in months_status_change_df.iterrows():
         if (row["previous_idc_status_change"]) == 0 and row[
             "first_status_change"
         ] != True:
             months_status_change_df.loc[
-                index, "last_change"
-            ] = months_status_change_df.loc[index - 1, "last_change"]
+                index, "last_status_change_date"
+            ] = months_status_change_df.loc[index - 1, "last_status_change_date"]
 
+    # Before first change
     for index, row in months_status_change_df.iterrows():
         for values in first_status_change_dict.values():
             for i in values:
                 if row["sub_id"] == i and row["sub_date"] < values[i]:
-                    months_status_change_df.at[index, "last_change"] = row["sub_date"]
+                    months_status_change_df.at[index, "last_status_change_date"] = row["sub_date"]
 
     utils.date_diff_months(
         months_status_change_df,
-        "last_change",
+        "last_status_change_date",
         "sub_date",
         0,
         "qty_months_since_last_change",
