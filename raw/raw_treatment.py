@@ -14,7 +14,7 @@ def treat_booking_csv(path_in,file_in,path_out,file_out):
     raw_booking_df = pd.read_csv(path_in+file_in)[columns]
     
     # filter to make tests
-    raw_booking_df = raw_booking_df.loc[raw_booking_df['subscriber_id'].isin([156,256])]
+    # raw_booking_df = raw_booking_df.loc[raw_booking_df['subscriber_id'].isin([156,256])]
     
     #Removing duplicates
     raw_booking_df = raw_booking_df.drop_duplicates()
@@ -53,8 +53,8 @@ def treat_subscription_csv(path_in,file_in,path_out,file_out):
     # Handling missing data
     ops.fill_na(raw_subscription_df)
 
-    #filter
-    raw_subscription_df = raw_subscription_df.loc[raw_subscription_df['sub_id'].isin([156,256])]
+    # filter to make tests
+    # raw_subscription_df = raw_subscription_df.loc[raw_subscription_df['sub_id'].isin([156,256])]
     
 
     # Adjusting dates field to be able to parse it to datetime for two purposes:
