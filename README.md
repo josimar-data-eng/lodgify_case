@@ -23,7 +23,7 @@ But, before it I suggest you to create a virtual environment, as a best practice
 
 ### Installing libraries
 ```
-pip install configparser pandas ipython
+pip3 install -r requirements.txt
 ```
 
 ### Then run the main.py file in the root directory:

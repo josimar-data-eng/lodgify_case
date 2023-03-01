@@ -1,5 +1,5 @@
-import os
 import configparser
+from datetime import datetime
 from raw import raw_treatment
 from staging import stg_treatment
 from sandbox import   months_active_canceled\
@@ -7,10 +7,9 @@ from sandbox import   months_active_canceled\
                     , months_since_first_subscription\
                     , months_since_last_status_change
 
-
+start_execution = datetime.now()
 config = configparser.ConfigParser()
 config.read('files/config/config.ini')
-
 
 print("\n===================\nRAW LAYER TREATMENT\n===================")
 
@@ -77,6 +76,6 @@ months_confirmed_books\
                               )
 
 
-# for i in (os.listdir(config['sandbox']['path_out'])):
-#   print((os.path.dirname(config['sandbox']['path_out']))+"/"+i)
-# print(os.listdir(config['sandbox']['path_in']))
+print("============================")
+print(f"Program executed in {datetime.now() - start_execution}")
+print("============================")
