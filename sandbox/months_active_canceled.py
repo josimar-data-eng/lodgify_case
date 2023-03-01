@@ -32,16 +32,24 @@ def generate_months_per_status(path_in,path_out,file_in,file_out):
                                     , ascending = [True, True]
                                     , inplace=True
                                 )
+    
+    count_status_df['qtt_monhts_active'] = count_status_df\
+                                                    .groupby(
+                                                            ['sub_id']
+                                                            )\
+                                                    ['is_active'].cumsum().astype(int)
 
-    # Sum over operation
-    count_status_df['qtt_monhts_active'  ] = count_status_df['is_active'  ].cumsum().astype(int)
-    count_status_df['qtt_monhts_canceled'] = count_status_df['is_canceled'].cumsum().astype(int)
-
+    count_status_df['qtt_monhts_canceled'] = count_status_df\
+                                                    .groupby(
+                                                            ['sub_id']
+                                                            )\
+                                                    ['is_canceled'].cumsum().astype(int)
 
     count_status_df = count_status_df\
                                 .filter(
-                                        ['sub_id','sub_year_month','monhts_active','monhts_canceled']
+                                        ['sub_id','sub_year_month','qtt_monhts_active','qtt_monhts_canceled']
                                         )
     count_status_df.to_csv(path_out+file_out)
+    print(f"File {file_out} loaded at {path_out} directory with {len(count_status_df.index)} rows.")        
 
     # display(stg_subscription_df)

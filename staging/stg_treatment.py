@@ -3,6 +3,8 @@ import operations as ops
 from IPython.display import display
 
 
+
+
 def treat_stg_booking(path_in_out,file_in,first_sub_file,last_book_file):
 
     #----------------------#
@@ -33,6 +35,7 @@ def treat_stg_booking(path_in_out,file_in,first_sub_file,last_book_file):
                                         , "first_subscription_date"
                                     )
     first_subscription_df.to_csv(path_in_out+first_sub_file)
+    print(f"File {first_sub_file} loaded at {path_in_out} directory with {len(first_subscription_df.index)} rows.")    
     
     #-------------------------------------------#
     # Getting the last booking date per each id #
@@ -48,5 +51,6 @@ def treat_stg_booking(path_in_out,file_in,first_sub_file,last_book_file):
                                 , "last_booking_date"
                             )
     last_booking_df.to_csv(path_in_out+last_book_file)
+    print(f"File {last_book_file} loaded at {path_in_out} directory with {len(last_booking_df.index)} rows.\n")    
 
     

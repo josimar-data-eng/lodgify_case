@@ -106,5 +106,4 @@ def generate_months_status_change(path_in,path_out,file_in,file_out):
 
     # display(months_status_change_df)
     months_status_change_df.to_csv(path_out+file_out)
-
-    return    
+    print(f"File {file_out} loaded at {path_out} directory with {len(months_status_change_df.index)} rows.")
