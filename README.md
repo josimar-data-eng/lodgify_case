@@ -58,11 +58,13 @@ first_subscription and last_booking files created based on booking file in raw l
 Files created with the response of questions asked.
 ###### months_since_first_subscription
 • How many months has passed since their first subscription month?<br />
+
  • Approach-1
   - reading last_booking and first_subscription
   - Left join between last_booking and first_subscription
   - calculate the difference between these two dates and getting the result as a month
   - Remove temp columns
+  
  • Approach-2
   - reading subscription and first_subscription
   - Left join between subscription and first_subscription
